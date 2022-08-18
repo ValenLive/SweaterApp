@@ -36,7 +36,7 @@ public class GreetingController {
      *
      * localHost:8080
      */
-    @GetMapping
+    @GetMapping("greeting/abobus")
     public String getMario(Map<String, Object> model){
         model.put("something", "ABOBUS");
         return "main";
