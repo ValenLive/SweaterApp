@@ -7,14 +7,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 
-
 /**
  * GreetingController class handling HTTP requests (@ Controller to identify controller)
  * In this example GreetingController handles GET requests for /greeting by returning the name of a View (in this case, greeting)
  * A View is responsible for rendering the HTML content
  */
+
 @Controller
 public class GreetingController {
+
     /**
      * @ GetMapping annotation maps /greeting HTTP GET requests to the greeting() method.
      * @ RequestParam binds the value of the query string parameter name into the name parameter of the greeting() method
@@ -23,8 +24,9 @@ public class GreetingController {
      *
      * localHost:8080/greeting?name=myName
      */
+
     @GetMapping("/greeting")
-    public String getGreeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Map<String, Object> model) {
+    public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Map<String, Object> model) {
         model.put("name", name);
         return "greeting";
     }
@@ -36,10 +38,23 @@ public class GreetingController {
      *
      * localHost:8080
      */
+
     @GetMapping("greeting/abobus")
-    public String getMario(Map<String, Object> model){
+    public String abobus(Map<String, Object> model){
         model.put("something", "ABOBUS");
         return "main";
+    }
+
+    @GetMapping("greeting/abobus/impostor")
+    public String impostor(@RequestParam(name = "impostor", required = false, defaultValue = "PinkDude") String impostor, Map<String, Object> model){
+        model.put("impostor", impostor);
+        return "impostor";
+    }
+
+    @GetMapping("greeting/abobus/impostor/sussy")
+    public String sussy(@RequestParam(name = "name") String sussyDude, Map<String, Object> model){
+        model.put("name", sussyDude); //sussy?name=sussyDude
+        return "sussy";
     }
 
 }
