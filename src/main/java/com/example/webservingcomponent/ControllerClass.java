@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
  * web request returning data NOT a view
  */
 @RestController
-public class HelloController {
+public class ControllerClass {
 
     @GetMapping("/")
     public String index(){
