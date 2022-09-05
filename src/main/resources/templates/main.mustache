@@ -1,27 +1,42 @@
-<Html>
-<Head>
+<html>
+<head>
     <title>
         Example of Paragraph tag
     </title>
-</Head>
-<Body>
+</head>
+<body>
+<div>
+    <form method="post" action="add">
+        <input type="text" name="text" placeholder="Enter text here">
+        <input type="text" name="tag" placeholder="Enter tag here">
+        <button type="submit">Add</button>
+    </form>
+</div>
+
+<form method="post" action="filter">
+    <input type="text" name="text">
+    <button type="submit">Find</button>
+</form>
+
+<form method="post" action="remove">
+    <input type="text" name="id">
+    <button type="submit">Remove</button>
+</form>
+
+<div>List of messages:</div>
+<!--Відтворення даних які були внесені в базу даних-->
+{{#messages}}
+    <div>
+        <b>{{id}}</b>
+        <span>{{text}}</span>
+        <i>{{tag}}</i>
+    </div>
+{{/messages}}
 <p> <!-- It is a Paragraph tag for creating the paragraph -->
-    <<h1>{{something}} INCIDENT</h1>  stands for <i> <u> A BOOP O BOBBIE U SUS. </u> </i> Among Us doesn’t have a story mode, so any lore is a theory until InnerSloth confirms or denies them. However, it hasn’t stopped fans from chiming in for just about every aspect of the game. The casual fan might have never heard of these lore theories, but if you’re addicted to the game like we are, then you know every inch of fan theory out there. Here are some of the Among Us lore theories you didn’t know about.
-<img src="https://i1.sndcdn.com/artworks-d90lM4szixsiTExa-Q4Lebw-t500x500.jpg" alt="alternatetext">
+    Among Us doesn’t have a story mode, so any lore is a theory until InnerSloth confirms or denies them. However,
+    it hasn’t stopped fans from chiming in for just about every aspect of the game. The casual fan might have never
+    heard of these lore theories, but if you’re addicted to the game like we are, then you know every inch of fan
+    theory out there. Here are some of the Among Us lore theories you didn’t know about.
 
-    The true impostors
-    Many fans believe InnerSloth tipped their hat to the true identity of the impostors. Some fans theorize Red & Black as Among Us’s true impostors. This theory is hard to confirm without a story mode, but Red is an important character.
-
-    Red is on the game’s logo, opens each game, and is heavily featured in the tutorial. Black also has an important role as the imposter. Black is the character on the sabotage button. The pair’s importance to the game, especially as impostors, leads fans to believe they are the true impostor duo.
-
-    Crewmates’ identities
-    There are a few theories about the crewmates’ identities. The first is the photo in the wallet. When players do the card swipe task, there is always a photo of Orange, Green, and Cyan, no matter what color you’re playing as. Fans suggest the picture means all the crewmates are either family or they’re really good friends.
-
-    The Medbay scan also gives insight into the crewmates’ identities. During the task, the scan reads off your character’s height, weight, color, and blood type. Height & weight stay the same for every player, and the color changes with the color you’re playing as, but your blood type will also change from game to game.
-
-    Blood type is randomly selected for each game, but fans theorize it’s your character changing each game, and they just put on your color spacesuit. There are no characters beyond the color spacesuits in Among Us.
-</p>
-HTML file is made up of different elements. <b> An element </b> is a collection of <i> start tag, end tag, attributes and the text between them</i>.
-</p>
-</Body>
-</Html>
+</body>
+</html>
