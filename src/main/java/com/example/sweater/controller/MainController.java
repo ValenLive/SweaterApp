@@ -1,4 +1,4 @@
-package com.example.sweater;
+package com.example.sweater.controller;
 
 import com.example.sweater.domain.Message;
 import com.example.sweater.repos.MessageRepo;
@@ -15,13 +15,13 @@ In Spring, the objects that are managed by the Spring IoC container are called b
  */
 
 /**
- * GreetingController class handling HTTP requests (@ Controller to identify controller)
- * In this example GreetingController handles GET requests for /greeting by returning the name of a View (in this case, greeting)
+ * MainController class handling HTTP requests (@ Controller to identify controller)
+ * In this example MainController handles GET requests for /greeting by returning the name of a View (in this case, greeting)
  * A View is responsible for rendering the HTML content
  */
 
 @Controller
-public class GreetingController {
+public class MainController {
 
     @Autowired
     // This means to get the bean(object)(the objects that are managed by the Spring IoC container are called beans) called messageRepo
@@ -41,9 +41,8 @@ public class GreetingController {
      * localHost:8080/greeting?name=myName
      */
 
-    @GetMapping("/greeting")
-    public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Map<String, Object> model) {
-        model.put("name", name);
+    @GetMapping("/")
+    public String greeting(Map<String, Object> model) {
         return "greeting";
     }
 
@@ -52,7 +51,7 @@ public class GreetingController {
      * <p>return "greeting"; - specifies main.mustache file for view model
      */
 
-    @GetMapping
+    @GetMapping("/main")
     public String main(Map<String, Object> model) {
         Iterable<Message> messages = messageRepo.findAll();
 
@@ -61,7 +60,7 @@ public class GreetingController {
         return "main";//name of mustache file, which represents on HTTP GET request;
     }
 
-    @PostMapping("add")//<form method="post" action="add"> - action mapping
+    @PostMapping("/main")//<form method="post" action="add"> - action mapping
     public String add(@RequestParam String text, @RequestParam String tag, Map<String, Object> model) {
         Message message = new Message(text, tag); //створили обєкт месседжу(ентіті)
 
@@ -92,7 +91,7 @@ public class GreetingController {
     @PostMapping("remove")
     public String remove(@RequestParam String id, Map<String, Object> model) {
 
-        messageRepo.deleteById((long) Integer.parseInt(id));
+        messageRepo.deleteById(Long.parseLong(id));
 
         Iterable<Message> messages = messageRepo.findAll();
 
@@ -100,22 +99,7 @@ public class GreetingController {
 
         return "main";
     }
-
-
-    @GetMapping("greeting/abobus/impostor")
-    public String impostor(@RequestParam(name = "impostor", required = false, defaultValue = "PinkDude") String impostor, Map<String, Object> model) {
-        model.put("impostor", impostor);
-        return "impostor";
-    }
-
-    @GetMapping("greeting/abobus/impostor/sussy")
-    public String sussy(@RequestParam(name = "name") String sussyDude, Map<String, Object> model) {
-        model.put("name", sussyDude); //sussy?name=sussyDude
-        return "sussy";
-    }
-
 }
-
 
 /**
  * IN THIS CASE METHOD BODY IS DEPENDENT ON MUSTACHE view technology

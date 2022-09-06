@@ -6,20 +6,29 @@
 </head>
 <body>
 <div>
-    <form method="post" action="add">
+    <form method="post" action="/logout" >
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <input type="submit" value="Sign out">
+    </form>
+</div>
+<div>
+    <form method="post" action="/main">
         <input type="text" name="text" placeholder="Enter text here">
         <input type="text" name="tag" placeholder="Enter tag here">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
         <button type="submit">Add</button>
     </form>
 </div>
 
 <form method="post" action="filter">
-    <input type="text" name="text">
+    <input type="text" name="text" placeholder="Enter tag here">
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
     <button type="submit">Find</button>
 </form>
 
 <form method="post" action="remove">
     <input type="text" name="id">
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
     <button type="submit">Remove</button>
 </form>
 
@@ -32,11 +41,5 @@
         <i>{{tag}}</i>
     </div>
 {{/messages}}
-<p> <!-- It is a Paragraph tag for creating the paragraph -->
-    Among Us doesn’t have a story mode, so any lore is a theory until InnerSloth confirms or denies them. However,
-    it hasn’t stopped fans from chiming in for just about every aspect of the game. The casual fan might have never
-    heard of these lore theories, but if you’re addicted to the game like we are, then you know every inch of fan
-    theory out there. Here are some of the Among Us lore theories you didn’t know about.
-
 </body>
 </html>
