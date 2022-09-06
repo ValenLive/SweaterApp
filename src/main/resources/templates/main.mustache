@@ -5,12 +5,14 @@
     </title>
 </head>
 <body>
+<!--Log out form-->
 <div>
-    <form method="post" action="/logout" >
+    <form method="post" action="/logout">
         <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-        <input type="submit" value="Sign out">
+        <input type="submit" value="Log out">
     </form>
 </div>
+<!--Adding item to DB from-->
 <div>
     <form method="post" action="/main">
         <input type="text" name="text" placeholder="Enter text here">
@@ -19,19 +21,27 @@
         <button type="submit">Add</button>
     </form>
 </div>
-
-<form method="post" action="filter">
-    <input type="text" name="text" placeholder="Enter tag here">
-    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-    <button type="submit">Find</button>
-</form>
-
-<form method="post" action="remove">
-    <input type="text" name="id">
-    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-    <button type="submit">Remove</button>
-</form>
-
+<!--Find item by tag form-->
+<div>
+    <form method="post" action="filter">
+        <input type="text" name="text" placeholder="Enter tag here">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <button type="submit">Find</button>
+    </form>
+</div>
+<!--Removing item from DB-->
+<div>
+    <form method="post" action="remove">
+        <input type="text" name="id" placeholder="Enter id here">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <button type="submit">Remove</button>
+    </form>
+</div>
+<i>
+    {{#message}}
+        {{message}}
+    {{/message}}
+</i>
 <div>List of messages:</div>
 <!--Відтворення даних які були внесені в базу даних-->
 {{#messages}}

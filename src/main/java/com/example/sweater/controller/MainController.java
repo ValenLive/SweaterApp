@@ -2,6 +2,7 @@ package com.example.sweater.controller;
 
 import com.example.sweater.domain.Message;
 import com.example.sweater.repos.MessageRepo;
+import com.example.sweater.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
-//Spring MVC, Spring Boot, Mustache, Hibernate, Postgresql
+//Spring MVC, Spring Boot, Mustache, Hibernate, Postgresql, Spring Security
 /*
 In Spring, the objects that are managed by the Spring IoC container are called beans.
  */
@@ -23,10 +24,12 @@ In Spring, the objects that are managed by the Spring IoC container are called b
 @Controller
 public class MainController {
 
-    @Autowired
     // This means to get the bean(object)(the objects that are managed by the Spring IoC container are called beans) called messageRepo
+    @Autowired
     private MessageRepo messageRepo; //use MessageRepo to handle the data
 
+    @Autowired
+    private UserRepo userRepo;
     /**
      * @Контроллер модуль програмний який по "/greeting" слухає запити і повертає відповідні дані (в нашій ситуації файл шаблон)
      */
@@ -80,6 +83,7 @@ public class MainController {
         if (text != null && !text.isEmpty()) {
             messages = messageRepo.findByTag(text);
         } else {
+            model.put("message", "Invalid tag");
             messages = messageRepo.findAll();
         }
 
@@ -91,7 +95,11 @@ public class MainController {
     @PostMapping("remove")
     public String remove(@RequestParam String id, Map<String, Object> model) {
 
-        messageRepo.deleteById(Long.parseLong(id));
+        if (id.length() != 0 && messageRepo.findById(Long.parseLong(id)).isPresent() && !id.isEmpty()) {
+            messageRepo.deleteById(Long.parseLong(id));
+        } else {
+            model.put("message", "ID doesn't exist!");
+        }
 
         Iterable<Message> messages = messageRepo.findAll();
 
@@ -101,10 +109,10 @@ public class MainController {
     }
 }
 
-/**
- * IN THIS CASE METHOD BODY IS DEPENDENT ON MUSTACHE view technology
- * The implementation of the method body relies on a view technology (in this case, Thymeleaf)
- * to perform server-side rendering of the HTML.
- * Thymeleaf parses the greeting.mustache template and evaluates the th:text expression
- * to render the value of the ${name} parameter that was set in the controller
+/*
+  IN THIS CASE METHOD BODY IS DEPENDENT ON MUSTACHE view technology
+  The implementation of the method body relies on a view technology (in this case, Thymeleaf)
+  to perform server-side rendering of the HTML.
+  Thymeleaf parses the greeting.mustache template and evaluates the th:text expression
+  to render the value of the ${name} parameter that was set in the controller
  */
