@@ -37,6 +37,17 @@
         <button type="submit">Remove</button>
     </form>
 </div>
+<!--Sorting by id-->
+<div>
+    <form method="post" action="sortByIdDesc">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <button type="submit">Sort by ID from highest to lowest</button>
+    </form>
+    <form method="post" action="sortByIdAsc">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <button type="submit">Sort by ID from lowest to highest</button>
+    </form>
+</div>
 <i>
     {{#message}}
         {{message}}

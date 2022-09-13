@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 //Spring MVC, Spring Boot, Mustache, Hibernate, Postgresql, Spring Security
 /*
@@ -47,7 +49,9 @@ public class MainController {
      */
 
     @GetMapping("/")
-    public String greeting(Map<String, Object> model) {
+    public String greeting(@AuthenticationPrincipal User user, Map<String, Object> model) {
+        model.put("user", user.getUsername());
+
         return "greeting";
     }
 
@@ -84,11 +88,12 @@ public class MainController {
 
     @PostMapping("filter") //<form method="post" action="filter"> - action mapping
     public String filter(@RequestParam String text, Map<String, Object> model) {//<input type="text" name="text"> == String text!
-        Iterable<Message> messages;//iterable interface because findByTag returns Tag, FindAll List
-
-        if (text != null && !text.isEmpty()) {
+        Iterable<Message> messages = null;//iterable interface because findByTag returns Tag, FindAll List
+        try {
+            text = text.toLowerCase(Locale.ROOT).trim();
+            if (messageRepo.findByTag(text).spliterator().getExactSizeIfKnown() == 0) throw new RuntimeException();
             messages = messageRepo.findByTag(text);
-        } else {
+        } catch (RuntimeException e) {
             model.put("message", "Invalid tag");
             messages = messageRepo.findAll();
         }
@@ -101,13 +106,35 @@ public class MainController {
     @PostMapping("remove")
     public String remove(@RequestParam String id, Map<String, Object> model) {
 
-        if (id.length() != 0 && messageRepo.findById(Long.parseLong(id)).isPresent() && !id.isEmpty()) {
-            messageRepo.deleteById(Long.parseLong(id));
-        } else {
+        try {
+            messageRepo.deleteById(Long.parseLong(id.trim()));
+        } catch (RuntimeException e) {
             model.put("message", "ID doesn't exist!");
         }
 
-        Iterable<Message> messages = messageRepo.findAll();
+        model.put("messages", messageRepo.findAll());
+
+        return "main";
+    }
+
+    @PostMapping("sortByIdDesc")
+    public String sortByIdDesc(Map<String, Object> model) {
+
+        List<Message> messages = (List<Message>) messageRepo.findAll();
+
+        messageRepo.sortById(messages);
+
+        model.put("messages", messages);
+
+        return "main";
+    }
+
+    @PostMapping("sortByIdAsc")
+    public String sortByIdAsc(Map<String, Object> model) {
+
+        List<Message> messages = (List<Message>) messageRepo.findAll();
+
+        messageRepo.sortByIdAsc(messages);
 
         model.put("messages", messages);
 
